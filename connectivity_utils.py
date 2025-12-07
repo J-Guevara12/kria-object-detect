@@ -16,6 +16,7 @@ class Config:
     MQTT_BROKER_HOST = os.environ.get("MQTT_HOST", "localhost")
     MQTT_BROKER_PORT = int(os.environ.get("MQTT_PORT", 1883))
     MQTT_TOPIC_BASE = os.environ.get("MQTT_TOPIC", "kria/events")
+    MQTT_CLIENT = os.environ.get("MQTT_CLIENT", "usr")
     # GCP
     GCP_BUCKET_NAME = os.environ.get("GCP_BUCKET", "tu-nombre-de-bucket")
     
@@ -28,7 +29,8 @@ def get_mqtt_client():
         try:
             Config.mqtt_client = mqtt.Client(client_id="KriaDPUClient")
             # Opcional: Configurar credenciales si el broker lo requiere
-            # Config.mqtt_client.username_pw_set("user", "password")
+            
+            Config.mqtt_client.username_pw_set(Config.MQTT_CLIENT)
             Config.mqtt_client.connect(Config.MQTT_BROKER_HOST, Config.MQTT_BROKER_PORT, 60)
             Config.mqtt_client.loop_start() # Iniciar loop en segundo plano para manejar reconexiones
             print(f"MQTT Client connected to {Config.MQTT_BROKER_HOST}:{Config.MQTT_BROKER_PORT}")
@@ -43,7 +45,7 @@ def publish_event_to_mqtt(event_data: dict):
     """
     client = get_mqtt_client()
     if client:
-        topic = f"{Config.MQTT_TOPIC_BASE}/{event_data['object_class']}/{event_data['event']}"
+        topic = f"kria-vision/{event_data['object_class']}/events/{event_data['event']}"
         payload = json.dumps(event_data)
         
         try:

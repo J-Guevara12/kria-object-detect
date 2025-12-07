@@ -14,6 +14,8 @@ from datetime import datetime
 from pynq_dpu import DpuOverlay
 from pynq.lib import AxiGPIO
 
+from connectivity_utils import *
+
 # ***********************************************************************
 # Configuration & Arguments
 # ***********************************************************************
@@ -400,11 +402,9 @@ try:
             json_output = json.dumps(event)
             print(json_output)
             
-            # TODO: Add MQTT Publish here
-            # client.publish("kria/events", json_output)
+            publish_event_to_mqtt(event)
             
-            # TODO: Add GCP Upload here
-            # upload_blob(bucket_name, event['image_path_local'], event['image_filename'])
+            upload_image_to_gcp(event['image_path_local'], event['image_filename'])
         
         # --- HEADLESS CHECK ---
         if not HEADLESS:
