@@ -141,7 +141,7 @@ cd kria-object-detect
 
 ### 2. Environment Setup
 
-It's highly recommended to use a Python virtual environment.
+It's highly recommended to use the pynq default Python virtual environment.
 
 ```bash
 # Use the provided script
@@ -196,6 +196,34 @@ GCP_BUCKET=your_gcp_bucket_name
 # For GCP authentication, typically set GOOGLE_APPLICATION_CREDENTIALS
 # to the path of your service account key file in your shell, e.g.:
 # export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-key.json"
+```
+
+
+### 7. Install Gstreamer
+
+In order to simplify the image capture pipeline, GStreamer is used to handle the `V4L2` output:
+
+First install UVC (USB Video Class)
+
+```
+sudo apt update
+sudo apt install cmake
+sudo apt install libusb-1.0-0-dev
+
+sudo su
+git clone https://github.com/nickel110/libuvc.git
+cd libuvc/
+mkdir build
+cd build/
+cmake ..
+make && sudo make install
+```
+
+Then you can install GStreamer:
+
+```
+sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+sudo apt install v4l2loopback-dkms
 ```
 
 ### 6. Run the Application
