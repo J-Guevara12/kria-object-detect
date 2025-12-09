@@ -67,20 +67,20 @@ The application is structured around several key components, with ThingsBoard ha
 
 ```mermaid
 graph TD
-    A[Camera (/dev/video0)] --> B(GStreamer Pipeline)
+    A[Camera &#40/dev/video0&#41] --> B(GStreamer Pipeline)
     B --> C{main.py - Frame Acquisition}
     C --> D[Frame Preprocessing]
-    D --> E[DPU Inference (YOLOX-Nano)]
+    D --> E[DPU Inference &#40YOLOX-Nano&#41]
     E --> F[Post-processing & Bounding Box Generation]
     F --> G{SceneMonitor - Event Logic}
     G -- "Detected Labels, Current Frame" --> G
     G -- "Events (Entry/Exit)" --> H[JSON Event Data]
-    H --> I[MQTT Publisher (connectivity_utils.py)]
-    I --> L[ThingsBoard Platform (Backend)]
-    G -- "Event Frame" --> J[GCP Image Uploader (connectivity_utils.py)]
+    H --> I[MQTT Publisher &#40connectivity_utils.py&#41]
+    I --> L[ThingsBoard Platform &#40Backend&#41]
+    G -- "Event Frame" --> J[GCP Image Uploader &#40connectivity_utils.py&#41]
     J --> K[Google Cloud Storage]
     L -- "Image URLs" --> K
-    F --> M{Display (Optional, if not HEADLESS)}
+    F --> M{Display &#40Optional, if not HEADLESS&#41}
 ```
 
 ## PYNQ Approach
